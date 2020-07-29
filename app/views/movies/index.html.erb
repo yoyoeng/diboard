@@ -4,7 +4,13 @@
       <ul>
         <li><%= link_to "ホーム", movies_path %></li>
         <li><%= link_to "新規投稿", new_movie_path %></li>
-        
+        <% if user_signed_in? %>
+         <li><strong><%= link_to "マイページ", user_path(current_user.id) %></strong>
+         <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+        <% else %>
+         <li><%= link_to 'ログイン', new_user_session_path %>
+        <% end %>
+
       </ul>
     </div>
 </header>
@@ -24,7 +30,7 @@
  </div>
 
 
-  <h2>作品一覧</h2>
+  
   <div class="grid">
     <% @movies.each do |t| %>
        <div class="movie">

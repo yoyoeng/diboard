@@ -1,3 +1,17 @@
+<header>
+  <div class="header-list">
+   <ul>
+    <li><%= link_to "ホーム", movies_path %></li>
+    <li><%= link_to "新規投稿", new_movie_path %></li>
+    <% if user_signed_in? %>
+      <li><strong><%= link_to "マイページ", user_path(current_user.id) %></strong>
+      <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <li><%= link_to 'ログイン', new_user_session_path %>
+    <% end %>
+   </ul>
+  </div>
+</header>
 
 <h3>新規投稿</h3>
 <%= form_for @movie do |f| %>

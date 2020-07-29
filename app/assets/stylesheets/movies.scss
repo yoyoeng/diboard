@@ -60,6 +60,8 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fit, 17rem);
   gap: 2rem;
+  text-align: center;
+  margin: 2rem;
 }
 
 .search-form form {
@@ -157,7 +159,7 @@ main a {
   justify-content: center;
  }
   
- h1 {
+ content h1 {
   font-size: 1.5em;
   color: black;
   font-weight: bold;
@@ -207,7 +209,7 @@ main a {
 	-webkit-box-shadow:1px 1px 6px 0px #ccc;
 	-o-box-shadow:1px 1px 6px 0px #ccc;
 	margin: 20px 5px; /* 外側の余白 上下・左右 */
-	padding: 30px 20px 20px 20px; /* 内側の余白 上・右・下・左 */
+	padding: 20px 20px 20px 20px; /* 内側の余白 上・右・下・左 */
 	position: relative;
 	z-index: 0;
  }
@@ -233,7 +235,11 @@ main a {
 	-webkit-transform: rotate(-3deg);
 	-o-transform: rotate(-3deg);
 }
-   
+  .form_comment form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   input[class^="btn"], textarea {
    float: left;
    width: 100%;

@@ -4,7 +4,12 @@
    <ul>
     <li><%= link_to "ホーム", movies_path %></li>
     <li><%= link_to "新規投稿", new_movie_path %></li>
-    
+    <% if user_signed_in? %>
+      <li><strong><%= link_to "マイページ", user_path(current_user.id) %></strong>
+      <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <li><%= link_to 'ログイン', new_user_session_path %>
+    <% end %>
    </ul>
   </div>
 </header>
@@ -33,7 +38,9 @@
           <%= f.check_box :tag_id, { multiple: false, :checked => @votes.present? ? current_user.votes.exists?(tag_id: tag.id) : false, include_hidden: false }, c.id %>
            #<%= c.content %>
         <% end %>
+        <% if user_signed_in? %>
        <%= f.submit %>
+       <% end %>
        <% end %>
        <%= form_with(model: [@movie, @tag], local: true) do |f| %>
          <%= f.text_field :content, :size => 20 %>
@@ -61,7 +68,6 @@
      </div>
       <br>
    <% end %>
-
 
  
   <div class="form_comment">

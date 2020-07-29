@@ -10,7 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
-
+ *= require_tree .
  *= require_self
  */
  
@@ -29,12 +29,6 @@ main {
     font-family: Montserrat, sans-serif;
     margin: 0;
     padding: 1rem;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 17rem);
-    gap: 2rem;
 }
 
 
