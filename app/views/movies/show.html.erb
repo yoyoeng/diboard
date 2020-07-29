@@ -1,0 +1,111 @@
+
+<header>
+  <div class="header-list">
+   <ul>
+    <li><%= link_to "ホーム", movies_path %></li>
+    <li><%= link_to "新規投稿", new_movie_path %></li>
+    <li><%= link_to 'Log-out', destroy_user_session_path, method: :delete %></li>
+    <li><%= link_to "マイページ", user_path(current_user.id) %></li>
+   </ul>
+  </div>
+</header>
+
+
+<content>
+   <div class="movie_page">
+     <%= cl_image_tag(@movie.image_url, :width=>420, :height=>600, :crop=>"scale") %>
+   </div>
+   <div class="movie_box">
+     <h1><%= @movie.title %><span>[<%= @movie.country.name %>]</span></h1>
+     <span class="star-rating">
+       <span class="star-rating-front" style="width: <%= getPercent(@review_average) %>%;">★★★★★</span>
+       <span class="star-rating-back">★★★★★</span>
+     </span>
+     <div class="story">
+       <h3>ストーリー</h3>
+       <p><%= @movie.sentence %></p>
+     </div>
+     <% if flash[:notice] %>
+      <p><%= flash[:notice] %></p>
+     <% end %>
+     <div class="feel-tag">
+       <%= form_with(model: [@movie, @vote], local: true) do |f| %>
+       <% @tag_count.each do |c| %>
+          <%= f.check_box :tag_id, { multiple: false, :checked => @votes.present? ? current_user.votes.exists?(tag_id: tag.id) : false, include_hidden: false }, c.id %>
+           #<%= c.content %>
+        <% end %>
+       <%= f.submit %>
+       <% end %>
+       <%= form_with(model: [@movie, @tag], local: true) do |f| %>
+         <%= f.text_field :content, :size => 20 %>
+         <%= button_tag type: "submit" do %>
+         <i class="far fa-comments"></i> 追加
+       <% end %>
+       <% end %>
+     </div>
+    </div>
+ </content>
+
+
+
+
+<div class="comment">
+   <h2>コメント一覧</h2>
+   <% @reviews.each do |c| %>
+    <div>
+      <%= c.user.name unless c.user.blank? %>
+      <span class="star-rating">
+         <span class="star-rating-front" style="width: <%= getPercent(c.rate) unless c.rate.blank? %>%;">★★★★★</span>
+         <span class="star-rating-back">★★★★★</span>
+      </span>
+      <%= c.comment %>
+     </div>
+      <br>
+   <% end %>
+
+
+ 
+  <div class="form_comment">
+   <% if user_signed_in? %>
+    <%= form_with(model: [@movie, @review], local: true) do |f| %> 
+      <!-- 評価 -->
+      <div class="post_form">
+       <%= f.radio_button :rate, 5 ,id: 'star1'%>
+       <label for="star1">★</label>
+
+       <%= f.radio_button :rate, 4 ,id: 'star2'%>
+       <label for="star2">★</label>
+
+       <%= f.radio_button :rate, 3 ,id: 'star3'%>
+       <label for="star3">★</label>
+
+       <%= f.radio_button :rate, 2 ,id: 'star4'%>
+       <label for="star4">★</label>
+
+       <%= f.radio_button :rate, 1 ,id: 'star5'%>
+       <label for="star5">★</label>
+     </div>
+     <div class="form-group row">
+       <%= f.text_area :comment, class: "form-control", placeholder:"コメント(任意)", name:"コメント" %>
+     </div>
+     <!-- 確認ボタン -->
+     <div class="form-group row justify-content-end">
+       <div class="col-md-9">
+         <%= f.submit '投稿する', class:"btn btn-success" %>
+       </div>
+     </div>
+     <% end %>
+   <% end %>
+  </div>
+</div>
+
+
+<footer>
+</footer>
+
+
+  
+
+  
+
+

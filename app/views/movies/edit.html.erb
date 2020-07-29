@@ -1,0 +1,10 @@
+
+<%= form_for @movie do |f| %>
+    <%= f.label :タイトル %>
+    <%= f.text_field :title, :size => 140 %> 
+    <%= f.label :ストーリー %>
+    <%= f.text_field :sentence, :size => 140 %>
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+    <%= f.submit "編集する" %>
+  <% end %>

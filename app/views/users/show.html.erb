@@ -1,0 +1,27 @@
+
+<header>
+<div class="header-list">
+  <ul>
+    <li><%= link_to "ホーム", movies_path %></li>
+    <li><%= link_to "新規投稿", new_movie_path %></li>
+    <li><%= link_to 'Log-out', destroy_user_session_path, method: :delete %></li>
+    <li><%= link_to "マイページ", user_path(current_user.id) %></li>
+  </ul>
+</div>
+</header>
+  <h1>マイページ</h1>
+
+<%= @user.name %>
+<h3>投稿一覧</h3>
+<div class="grid">
+   <% @user.movies.each do |t| %>
+      <div class="movie">
+        <%= cl_image_tag(t.image_url, :width=>210, :height=>300, :crop=>"scale") %>
+        <P><%= t.title %></p>
+        <%= link_to "詳細", movie_path(t.id) %>
+        <%= link_to "編集", edit_movie_path(t.id) %>
+        <%= button_to "削除", movie_path(t.id), method: :delete %>
+      </div>
+    <% end %>
+</div>
+
