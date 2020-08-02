@@ -31,9 +31,6 @@ class MoviesController < ApplicationController
       @vote = Vote.new
       @tag_count = Tag.find(Vote.group(:tag_id).order('count(tag_id)desc').pluck(:tag_id)).select{|tag| tag.movie_id == @movie.id}
       @votes = Vote.where(user_id: current_user)
-      #@tag_count = Tag.find(MovieTag.group(:movie_id).group(:tag_id).order('count(tag_id)desc').select{|movie_tag| movie_tag.movie_id == @movie.id}.pluck(:tag_id))
-      #@movie_tag = @movie.movie_tags.build
-      #@tag_movie = Movie.find(params[:id]).tags.map(&:content)
 
       @review_rate = Review.select{|review| review.movie_id == @movie.id}.pluck(:rate)
       if @review_rate.empty?

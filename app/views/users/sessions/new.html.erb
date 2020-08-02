@@ -1,26 +1,30 @@
-<h2>ログイン</h2>
+<loginbody>
+  <div class="form-wrapper">
 
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :メール %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+    <h1 id="logpage">ログイン</h1>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+    <login>
+        <div class="form-item">
+          <%= f.label :メール %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        </div>
 
-  <div class="field">
-    <%= f.label :パスワード %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
+        <div class="form-item">
+          <%= f.label :パスワード %><br />
+          <%= f.password_field :password, autocomplete: "current-password" %>
+        </div>
 
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+        
+
+        <div class="button-panel">
+          <%= f.submit "Log in", class:"button" %>
+        </div>
+      <% end %>
+  </login>
+
+    <div class="form-footer">
+      <%= render "users/shared/links" %>
     </div>
-  <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
   </div>
-<% end %>
+</loginbody>
 
-<%= render "users/shared/links" %>

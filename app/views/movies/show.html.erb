@@ -1,12 +1,13 @@
 
 <header>
   <div class="header-list">
+   <h1>diboard</h1>
    <ul>
     <li><%= link_to "ホーム", movies_path %></li>
     <li><%= link_to "新規投稿", new_movie_path %></li>
     <% if user_signed_in? %>
       <li><strong><%= link_to "マイページ", user_path(current_user.id) %></strong>
-      <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
+      
     <% else %>
       <li><%= link_to 'ログイン', new_user_session_path %>
     <% end %>
@@ -14,10 +15,22 @@
   </div>
 </header>
 
+<script>
+ $(window).scroll(function() {
+   if ($(document).scrollTop() > 100) {
+     $('header').addClass('shrink');
+   } else {
+     $('header').removeClass('shrink');
+   }
+ });
+</script>
+
+
+
 
 <content>
    <div class="movie_page">
-     <%= cl_image_tag(@movie.image_url, :width=>420, :height=>600, :crop=>"scale") %>
+     <%= cl_image_tag(@movie.image_url, :width=>288, :height=>414, :crop=>"scale") %>
    </div>
    <div class="movie_box">
      <h1><%= @movie.title %><span>[<%= @movie.country.name %>]</span></h1>
@@ -25,30 +38,13 @@
        <span class="star-rating-front" style="width: <%= getPercent(@review_average) %>%;">★★★★★</span>
        <span class="star-rating-back">★★★★★</span>
      </span>
+     <hr class="cp_hr06" />
      <div class="story">
-       <h3>ストーリー</h3>
-       <p><%= @movie.sentence %></p>
-     </div>
-     <% if flash[:notice] %>
-      <p><%= flash[:notice] %></p>
-     <% end %>
-     <div class="feel-tag">
-       <%= form_with(model: [@movie, @vote], local: true) do |f| %>
-       <% @tag_count.each do |c| %>
-          <%= f.check_box :tag_id, { multiple: false, :checked => @votes.present? ? current_user.votes.exists?(tag_id: tag.id) : false, include_hidden: false }, c.id %>
-           #<%= c.content %>
-        <% end %>
-        <% if user_signed_in? %>
-       <%= f.submit %>
-       <% end %>
-       <% end %>
-       <%= form_with(model: [@movie, @tag], local: true) do |f| %>
-         <%= f.text_field :content, :size => 20 %>
-         <%= button_tag type: "submit" do %>
-         <i class="far fa-comments"></i> 追加
-       <% end %>
-       <% end %>
-     </div>
+         <h3>ストーリー</h3>
+         <p><%= @movie.sentence %></p>
+      </div>
+     <hr class="cp_hr06" />
+     
     </div>
  </content>
 
@@ -56,21 +52,50 @@
 
 
 <div class="comment">
-   <h2>コメント一覧</h2>
-   <% @reviews.each do |c| %>
-    <div>
-      <%= c.user.name unless c.user.blank? %>
-      <span class="star-rating">
-         <span class="star-rating-front" style="width: <%= getPercent(c.rate) unless c.rate.blank? %>%;">★★★★★</span>
-         <span class="star-rating-back">★★★★★</span>
-      </span>
-      <%= c.comment %>
+    <div class="content_box">
+       
+      
+       <h3>ハッシュタグ<span>〜共感するタグに投票してください〜</span></h3>
+       <div class="feel-tag">
+          <%= form_with(model: [@movie, @vote], local: true) do |f| %>
+          <% @tag_count.each do |c| %>
+           <div class="feel-tag-checkbox">
+              <%= f.check_box :tag_id, { multiple: false,  include_hidden: false, id: 'feeling', class:"checkbox"}, c.id %>
+              <label for="feeling">
+             ＃<%= c.content %></label>
+           </div>
+          <% end %>
+         <% if user_signed_in? %>
+         <%= f.submit'投票', class:"vote" %>
+         <% end %>
+         <% end %>
+         <%= form_with(model: [@movie, @tag], local: true) do |f| %>
+          <div class="feel-add-tag">
+            <%= f.text_field :content, placeholder:"＃オリジナルタグ" %>
+          </div>
+          <%= f.submit '追加', class:"add-tag" %>
+         <% end %>
+        </div>
      </div>
-      <br>
-   <% end %>
+   <h2>コメント</h2>
+   <div class="comment_show">
+     <% @reviews.each do |c| %>
+       <div class="comment_box">
+          <%= c.user.name unless c.user.blank? %>
+           <% if c.rate.present?  %>
+           <span class="star-rating">
+              <span class="star-rating-front" style="width: <%= getPercent(c.rate)  %>%;">★★★★★</span>
+              <span class="star-rating-back">★★★★★</span>
+           </span>
+           <% end %>
+            <%= c.comment %>
+       </div>
+     <% end %>
+   </div>
 
  
   <div class="form_comment">
+   <h2>評価する</h2>
    <% if user_signed_in? %>
     <%= form_with(model: [@movie, @review], local: true) do |f| %> 
       <!-- 評価 -->

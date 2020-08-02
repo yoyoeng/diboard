@@ -1,6 +1,7 @@
 
 <header>
 <div class="header-list">
+<h1>diboard</h1>
   <ul>
     <li><%= link_to "ホーム", movies_path %></li>
     <li><%= link_to "新規投稿", new_movie_path %></li>
@@ -9,11 +10,12 @@
   </ul>
 </div>
 </header>
+<main style="margin-top: 6rem;">
   <h1>マイページ</h1>
 
-<%= @user.name %>
-<h3>投稿一覧</h3>
-<div class="grid">
+ <%= @user.name %>
+ <h3>投稿一覧</h3>
+ <div class="grid">
    <% @user.movies.each do |t| %>
       <div class="movie">
         <%= cl_image_tag(t.image_url, :width=>210, :height=>300, :crop=>"scale") %>
@@ -23,5 +25,6 @@
         <%= button_to "削除", movie_path(t.id), method: :delete %>
       </div>
     <% end %>
-</div>
+ </div>
+</main>
 

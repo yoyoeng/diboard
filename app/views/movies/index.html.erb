@@ -1,30 +1,46 @@
 
-<header>
-    <div class="header-list">
-      <ul>
-        <li><%= link_to "ホーム", movies_path %></li>
-        <li><%= link_to "新規投稿", new_movie_path %></li>
-        <% if user_signed_in? %>
-         <li><strong><%= link_to "マイページ", user_path(current_user.id) %></strong>
-         <li><%= link_to 'ログアウト', destroy_user_session_path, method: :delete %>
-        <% else %>
-         <li><%= link_to 'ログイン', new_user_session_path %>
-        <% end %>
+<header id="homepage">
+<div class="header-list">
+  <div class="mark">
+   <h1 id="site-logo">diboard</h1>
+   <h2>日本と英語圏以外の映画・ドラマレビューサイト</h2>
+  </div>
 
-      </ul>
-    </div>
+ <ul>
+  <li><%= link_to "ホーム", movies_path %></li>
+  <li><%= link_to "新規投稿", new_movie_path %></li>
+  <% if user_signed_in? %>
+    <li><strong><%= link_to "マイページ", user_path(current_user.id) %></strong>
+  <% else %>
+    <li><%= link_to 'ログイン', new_user_session_path %>
+  <% end %>
+ </ul>
+</div>
 </header>
-<main>
+
+# <script>
+#  $(window).scroll(function() {
+#    if ($(document).scrollTop() > 150) {
+#      $('header').addClass('shrink');
+#    } else {
+#      $('header').removeClass('shrink');
+#    }
+#  });
+# </script>
+
+
+
+<main style="margin-top: 20rem;">
  <div class="search-form">
    <%= form_with(scope: :search, url: movies_path, method: :get, local: true) do |f| %>
-     <div class="field">
-       <%= f.label(:country_id) %>
-       <%= f.collection_select(:country_id, Country.all, :id, :name, selected: @search_params[:country_id], prompt: "") %>
-        <%= f.label(:site_id) %>
-        <%= f.collection_select(:site_id, Site.all, :id, :name, selected: @search_params[:site_id], prompt: "") %>
+     <div class="search-field">
+       <%= f.label(:国) %>
+       <%= f.collection_select(:country_id, Country.all, :id, :name, selected: @search_params[:country_id], prompt: "        ") %>
+        <%= f.label(:サイト) %>
+        <%= f.collection_select(:site_id, Site.all, :id, :name, selected: @search_params[:site_id], prompt: "        ") %>
      </div>
      <div class="actions">
-       <%= f.submit %>
+       <%= f.submit '検索', class:"search-click"%>
      </div>
    <% end %>
  </div>
