@@ -65,9 +65,7 @@
              ＃<%= c.content %></label>
            </div>
           <% end %>
-         <% if user_signed_in? %>
          <%= f.submit'投票', class:"vote" %>
-         <% end %>
          <% end %>
          <%= form_with(model: [@movie, @tag], local: true) do |f| %>
           <div class="feel-add-tag">
@@ -96,7 +94,6 @@
  
   <div class="form_comment">
    <h2>評価する</h2>
-   <% if user_signed_in? %>
     <%= form_with(model: [@movie, @review], local: true) do |f| %> 
       <!-- 評価 -->
       <div class="post_form">
@@ -124,7 +121,6 @@
          <%= f.submit '投稿する', class:"btn btn-success" %>
        </div>
      </div>
-     <% end %>
    <% end %>
   </div>
 </div>
